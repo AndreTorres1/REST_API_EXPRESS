@@ -1,0 +1,76 @@
+1. Cada trabalho será composto pelos seguintes componentes:
+a. Uma API REST escrita em Node.js. Todos os endpoints da API deverão ter 
+validações, isto é, no momento da correção será (por exemplo) testada 
+a inserção de dados errados ou inconsistentes.
+b. Uma base de dados PostgreSQL✔️
+c. Documentação e testes da API possibilitados pela tecnologia Swagger
+[npmjs.com/package/swagger-ui]
+d. Script de criação da base de dados através de migrations utilizando o dbmigrate [https://npmjs.com/package/db-migrate]
+Serviços Distribuídos – Trabalho Prático Especial (2022/2023)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+2. A cada grupo será atribuído um dataset da plataforma Kaggle
+(www.kaggle.com). Alguns exemplos:
+a. https://www.kaggle.com/imsparsh/musicnetdataset?select=musicnet_metadata.csv
+b. https://www.kaggle.com/shivamb/netflixshows?select=netflix_titles.csv✔️
+c. https://www.kaggle.com/gregorut/videogamesales?select=vgsales.csv
+d. ...
+--------------------------------------------------------------------------------------------------------------------------------------------------
+3. Deverão ser selecionadas pelo menos 3 entidades presentes no dataset
+escolhido, sendo que pelo menos 2 destas entidades deverão estar associadas
+através de uma relação 1-N ou N-N com uma outra entidade (exemplos: Equipa 
+/ Jogador – uma Equipa tem vários jogadores, um jogador está em apenas uma 
+equipa; Filme / Ator – cada ator pode participar em vários Filmes e cada Filme 
+tem vários atores).
+--------------------------------------------------------------------------------------------------------------------------------------------------
+4. Deverá ser definida uma estrutura em SQL para armazenar as 3 entidades 
+escolhidas do dataset. A estrutura SQL deverá ser criada com migrações de base 
+de dados em db-migrate.
+--------------------------------------------------------------------------------------------------------------------------------------------------
+5. Deverá ser criado uma script de importação dos dados. Os datasets escolhidos 
+estão em CSV pelo que poderá ser usado o package csv-parse 
+[https://www.npmjs.com/package/csv-parse] para efetuar a leitura. A 
+importação de todos os dados deverá ser realizada numa das migrações da base 
+de dados.✔️/2
+--------------------------------------------------------------------------------------------------------------------------------------------------
+6. Além das entidades do sistema, deverá ser criada uma coleção que represente 
+os utilizadores do sistema. O utilizador apenas tem e-mail e password. As 
+passwords dos utilizadores serão gravadas nesta base de dados com encriptação 
+SHA256. 
+a. Os utilizadores terão 3 níveis de permissões:
+i. View – apenas pode visualizar dados das entidades
+ii. Edit – pode visualizar e editar dados das entidades do sistema
+iii. Admin – tem permissões de Edit e pode fazer CRUD de 
+utilizadores
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+7. Poderá ser utilizada a tecnologia ORM para representar as entidades do sistema 
+e utilizador. (Exemplo, sequelize em https://sequelize.org/)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+8. Deverá ser criada uma API CRUD [criar, obter, atualizar e apagar] de todas as 
+entidades e de utilizadores. Deverão ser igualmente criados endpoints que 
+permitam relacionar entidades. O acesso aos endpoints da API é autenticado, 
+devendo respeitar os níveis de permissão definidos no número anterior.
+a. A nomenclatura dos endpoints da API deverá seguir as normas REST. ✔️
+Deverão ser utilizados os estados e verbos HTTP mais adequados para as 
+respostas e perguntas à API.
+b. Exemplos de endpoints:
+Ex 1. Obter um filme ✔️
+GET {HOSTNAME}/api/movies/11 [200]
+Ex 2. Obter os atores de um filme ✔
+GET {HOSTNAME}/api/movies/11/actors [200]
+Ex 3. Adicionar um ator a um filme
+POST {HOSTNAME}/api/movies/11/actors [201]
+Ex 4. Atualizar um ator de um filme
+PUT {HOSTNAME}/api/movies/11/actors/7 [200 ou 204]
+Ex 5. Apagar um ator de um filme Atualizar um ator de um filme
+DELETE {HOSTNAME}/api/movies/a8248e6f-7f58-4734-9768-e4fd287ef97f/actors/ 8bb06980-53ff4c13-b3fb-4887b3a4e935 [200 ou 204]
+--------------------------------------------------------------------------------------------------------------------------------------------------
+9. A API deverá ser demonstrável através de testes em Postman ou através do próprio Swagger UI.✔️
+--------------------------------------------------------------------------------------------------------------------------------------------------
+10. Valorização: Realização de testes automáticos à API de todos os endpoints com Mocha [ https://mochajs.org/].
+--------------------------------------------------------------------------------------------------------------------------------------------------
+11. Valorização: Utilização de GUIDs para identificador único das entidades e  utilizadores na base de dados em vez de Ids sequenciais numéricos. Poderá ser  usado o package https://www.npmjs.com/package/uuid. 
+--------------------------------------------------------------------------------------------------------------------------------------------------
+12. Valorização: Utilizar JSONWEBTOKEN para autenticação  https://www.npmjs.com/package/jsonwebtoken
+--------------------------------------------------------------------------------------------------------------------------------------------------
+13. Valorização: utilização do GIT durante o trabalho ✔️

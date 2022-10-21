@@ -5,7 +5,7 @@ const shortID = require('shortid');
 //"ensina" o express a ler um json file
 app.use(express.json())
 let movies = []
-
+let entity = []
 let category = []
 
 
@@ -16,24 +16,84 @@ app.get('/', (req, res) => {
     })
 });
 
-//------------------------------------GET´S AREA-----------------------------------------\\
+
+//-----------------------------------Admin Area-----------------------------------------\\
+//Cria um novo utilizador com x permissao
+app.post('/api/Admin/register/NewUser', (req, res) => {
+    const categoryData = req.body;
+    categoryData.id = shortID.generate()
+    category.push(categoryData);
+    res.status(201).json(categoryData)
+});
+
+app.post('/api/Admin/entidades/newEntity', (req, res) => {
+    const entidades = req.body;
+    entidades.id = shortID.generate()
+    entity.push(entidades);
+    res.status(201).json(entidades)
+});
+
+//apaga entidade com x id
+app.delete('/api/Admin/entidades/:id', (req, res) => {
+    const {id} = req.params;
+    //verifica se existisse, se nao exisitir nao apaga(pk nao tem nada para apagar -.-)
+    const deleted = movies.find(movie => movie.id === id);
+    if (deleted) {
+        //criamos um array novo e passamos o array gerado pelo id fornecido, ou seja ele pega num array novo pega no que é para ser apagado e transforma-o no array novo criado
+        movies = movies.filter(movie => movie.id !== id)
+        res.status(200).json(deleted);
+    } else {
+        console.log(deleted);
+        res
+            .status(404)
+            .json({message: "Esta entidade nao existe!"})
+    }
+});
 
 
-//vai buscar a informacao colada no post *1
+//visualiza entidades
+app.get('/api/Admin/entidades/entity', (req, res) => {
+    res.status(200).json(entity);
+});
+//edita os campos de um determinado id
+app.post('/api/Admin/register/editEntity/:id', (req, res) => {
+    const categoryData = req.body;
+    categoryData.id = shortID.generate()
+    category.push(categoryData);
+    res.status(201).json(categoryData)
+});
+
+//-----------------------------------View Area-----------------------------------------\\
+//pode visualizar dados das entidades
 app.get('/api/movies', (req, res) => {
     res.status(200).json(movies);
 });
+
+
+//-----------------------------------Edit Area-----------------------------------------\\
+
+//O utilizador edit tem permissao de ir buscar todos os filme.
+
 // *****CATEGORY********
 app.get('/api/category', (req, res) => {
     res.status(200).json(category);
 });
 
+
+//------------------------------------GET´S AREA-----------------------------------------\\
+
+//vai buscar a informacao colada no post *1
+app.get('/api/movies', (req, res) => {
+    res.status(200).json(movies);
+});
+
+
 //Vai buscar um filme com um ID especifico
-app.get('/api/movies/:id',(req, res) => {
+app.get('/api/movies/:id', (req, res) => {
     const {id} = req.params;
     const getMovieByID = movies.find(movie => movie.id === id);
 
-    if (getMovieByID){
+    if (getMovieByID) {
         res.status(200).json(getMovieByID)
     } else {
         res.status(404).json({message: "O filme nao existe"})
