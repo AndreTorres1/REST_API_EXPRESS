@@ -55,13 +55,13 @@ Deverão ser utilizados os estados e verbos HTTP mais adequados para as
 respostas e perguntas à API.
 b. Exemplos de endpoints:
 Ex 1. Obter um filme ✔️
-GET {HOSTNAME}/api/movies/11 [200]
+GET {HOSTNAME}/api/movies/11 [200]✔
 Ex 2. Obter os atores de um filme ✔
-GET {HOSTNAME}/api/movies/11/actors [200]
+GET {HOSTNAME}/api/movies/11/actors [200]✔
 Ex 3. Adicionar um ator a um filme
 POST {HOSTNAME}/api/movies/11/actors [201]
-Ex 4. Atualizar um ator de um filme
-PUT {HOSTNAME}/api/movies/11/actors/7 [200 ou 204]
+Ex 4. Atualizar um ator de um filme✔
+PUT {HOSTNAME}/api/movies/11/actors/7 [200 ou 204]✔
 Ex 5. Apagar um ator de um filme Atualizar um ator de um filme
 DELETE {HOSTNAME}/api/movies/a8248e6f-7f58-4734-9768-e4fd287ef97f/actors/ 8bb06980-53ff4c13-b3fb-4887b3a4e935 [200 ou 204]
 --------------------------------------------------------------------------------------------------------------------------------------------------
