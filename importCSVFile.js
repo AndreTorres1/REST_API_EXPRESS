@@ -1,7 +1,7 @@
 const {parse} = require('csv-parse');
 const fs = require('fs');
 
-//este ficheiro "transforma" um ficheiro cvs no caso deste projeto uma lista de filmes da netflix, e trasforma-o num array ou objeto
+//este ficheiro "transforma" um ficheiro cvs (no caso deste projeto uma lista de filmes da netflix), e trasforma-o num array ou objeto
 const csvData = [];
 
 

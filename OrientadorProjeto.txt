@@ -1,7 +1,7 @@
 1. Cada trabalho será composto pelos seguintes componentes:
 a. Uma API REST escrita em Node.js. Todos os endpoints da API deverão ter 
-validações, isto é, no momento da correção será (por exemplo) testada 
-a inserção de dados errados ou inconsistentes.
+validações, isto é, no momento da correção será (por exemplo) testada ✔️
+a inserção de dados errados ou inconsistentes. ⍻
 b. Uma base de dados PostgreSQL✔️
 c. Documentação e testes da API possibilitados pela tecnologia Swagger
 [npmjs.com/package/swagger-ui]

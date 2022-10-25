@@ -1,13 +1,25 @@
+//variaveis / requires
 const express = require('express');
-const bodyParser = require('body-parser');
 const api = require('./src/api');
-// const shortID = require('shortid');
-
+const apiAdmin = require('./users/admin')
 const app = express();
 const port = 8080;
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.use(bodyParser.json());
 app.use('/api/v1', api);
+app.use('/api/v1/admin', apiAdmin)
+
+
+app.get('/', (req, res) => {
+    res.send("<h1>Welcome to the world of Express!</h1>");
+});
+
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`)
+});
 
 // let movies = []
 // let entity = []
@@ -130,7 +142,7 @@ app.use('/api/v1', api);
 // app.post('/api/movies', (req, res) => {
 //     const movieInfo = req.body;
 //     //atribuir um ID gerado automaticamente atraves da biblioteca uniqueID para o objecto movieInfo
-//     movieInfo.id = shortID.generate();
+//     .id = shortID.generate();
 //     movies.push(movieInfo);
 //     res.status(201).json(movieInfo)
 // });
@@ -181,7 +193,5 @@ app.use('/api/v1', api);
 // });
 
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`)
-});
+
 
