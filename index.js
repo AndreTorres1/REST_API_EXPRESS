@@ -2,15 +2,18 @@
 const express = require('express');
 const api = require('./src/api');
 const apiAdmin = require('./users/admin')
+const getUser = require('./database')
 const app = express();
 const port = 8080;
 const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({extended: true}));
+// const {client} = require('./BaseDados/connection');
+app.use(bodyParser.urlencoded({extended: true}));           
 
 
 app.use(bodyParser.json());
 app.use('/api/v1', api);
-app.use('/api/v1/admin', apiAdmin)
+app.use('/api/v1/admin', apiAdmin);
+app.use('/api/v1/user', getUser)
 
 
 app.get('/', (req, res) => {
@@ -20,6 +23,18 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`)
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 // let movies = []
 // let entity = []

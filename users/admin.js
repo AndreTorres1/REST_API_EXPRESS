@@ -100,4 +100,24 @@ app.delete('/users/:userName', (req, res) => {
     res.send('Utilizador apagado');
 });
 
+
+app.post('/users', (req, res) => {
+    const {
+        userName,
+        email,
+        password,
+        permissao
+    } = req.body;
+
+    
+    const user = {
+        userName,
+        email,
+        password,
+        permissao
+
+    };
+    movieDirectory.push(user);
+    res.send(user);
+});
 // app.post()
