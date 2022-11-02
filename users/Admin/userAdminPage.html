@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MOVIES CRUD</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <form method="post" action="/api/v1/admin/postUser">
+        <div class="form-group">
+            <label for="id">Introduza o ID</label>
+            <input type="number" class="form-control" name="id" id="id"
+                   placeholder="Introduza o ID do utilizador">
+        </div>
+
+        <div class="form-group" aria-autocomplete="none">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" id="email"
+                   placeholder="Email do utilizador">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="lastName" id="password"
+                   placeholder="Introduza a Password">
+        </div>
+
+        <div class="form-group">
+            <label for="permissao">Permissao</label>
+            <input type="number" class="form-control" name="permissao" id="permissao"
+                   placeholder="0-Admin 1-Edit 2-View">
+        </div>
+
+        <form method="post" action="/api/v1/admin/updateUser" autocomplete="off"></form>
+        <button type="button" class="btn btn-primary">Atualizar Utilizador</button>
+    </form>
+    <!--GET USER BY ID -->
+    <div class="container1">
+        <form method="get" action="/api/v1/admin/getUsers" style="left: 190px; position: relative;bottom: 38px;}">
+            <button type="submit" class="btn btn-primary">Get Utilizadores</button>
+        </form>
+    </div>
+    <!--GET USERS-->
+    <div class="container2">
+        <form method="get" action="/api/v1/admin/getUsersById/" style="left: 390px; position: relative;bottom: 75px;}">
+            <button type="submit" class="btn btn-primary">Get utilizador por ID</button>
+        </form>
+    </div>
+    <!--ADD/POST NEW USER-->
+
+</div>
+<div class="container3">
+    <form method="post" action="/api/v1/admin/postUser" style="left: 720px; position: relative;bottom: 112px;}">
+        <button type="button" class="btn btn-primary">Adicionar User</button>
+    </form>
+</div>
+</body>
+</html>

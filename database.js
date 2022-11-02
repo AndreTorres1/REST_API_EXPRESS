@@ -10,12 +10,11 @@ const  client = new Client({
     database:"postgres"
 })
 
-client.connect();
 
-app.get('/getUsers',(req,res)=>{
-    client.query(`Select * from users`,(err, result)=>{
-        if(!err){
-            res.send(result.rows);
-        }
-    })
-})
+
+
+
+
+
+
+
