@@ -9,33 +9,41 @@
 </head>
 <body>
 <div class="container">
-    <form method="post" action="/mov">
+    <form method="post" action="/">
         <div class="form-group">
-            <label for="firstName">Introduza o ID</label>
-            <input type="text" class="form-control" name="firstName" id="firstName"
-                   placeholder="Introduza o ID do filme">
+            <label for="show_id">Introduza o ID</label>
+            <input type="text" class="form-control" name="show_id" id="show_id"
+                   placeholder="Introduza o ID do filme a visualizar ou a alterar" required>
         </div>
         <div class="form-group">
-            <label for="lastName">Introduza o nome do filme</label>
-            <input type="text" class="form-control" name="lastName" id="lastName"
-                   placeholder="Introduza o nome do filme">
+            <label for="type">Tipo</label>
+            <input type="text" class="form-control" name="type" id="type">
         </div>
 
+        <div class="form-group">
+            <label for="director">Diretor</label>
+            <input type="text" class="form-control" name="director" id="director">
+        </div>
+        <div class="form-group">
+            <label for="cast">Casting</label>
+            <input type="text" class="form-control" name="cast" id="cast">
+        </div>
+        <div class="form-group">
+            <label for="country">País</label>
+            <input type="text" class="form-control" name="country" id="country">
+        </div>
+        <div class="form-group">
+            <label for="description">Descrição</label>
+            <input type="text" class="form-control" name="description" id="description">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Get Movies</button>
+        <button type="submit" class="btn btn-primary">2Get Movie by ID</button>
         <button type="submit" class="btn btn-primary">Update Movie</button>
     </form>
-    <div class="container1">
-        <form method="get" action="/api/v1/movies" style="left: 150px; position: relative;bottom: 38px;}">
-            <button type="submit" class="btn btn-primary">Get Movie</button>
-        </form>
-    </div>
 
-    <div class="container2">
-        <form method="get" action="/api/v1/movies" style="left: 270px; position: relative;bottom: 75px;}">
-            <button type="submit" class="btn btn-primary">Get Movies</button>
-        </form>
-
-
-    </div>
 </div>
 </body>
+
+
 </html>

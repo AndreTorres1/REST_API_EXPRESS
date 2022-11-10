@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +9,14 @@
 </head>
 <body>
 <div class="container">
-    <form method="post" action="/api/v1/admin/postUser">
+    <form method="POST" action='/api/v1/admin/auth/register/' autocomplete="off">
         <div class="form-group">
-            <label for="id">Introduza o ID</label>
-            <input type="number" class="form-control" name="id" id="id"
+            <label for="id_user">Introduza o ID</label>
+            <input type="number" class="form-control" name="id_user" id="id_user"
                    placeholder="Introduza o ID do utilizador">
         </div>
 
-        <div class="form-group" aria-autocomplete="none">
+        <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" name="email" id="email"
                    placeholder="Email do utilizador">
@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" name="lastName" id="password"
+            <input type="password" class="form-control" name="password" id="password"
                    placeholder="Introduza a Password">
         </div>
 
@@ -33,29 +33,28 @@
             <input type="number" class="form-control" name="permissao" id="permissao"
                    placeholder="0-Admin 1-Edit 2-View">
         </div>
+        <input type="submit" value="Adicionar utilizador" onclick="voltarPagina()" />
+        <input type="button" name="updateUser" value="Atualizar utilizador" onclick="updateUser();"/>
 
-        <form method="post" action="/api/v1/admin/updateUser" autocomplete="off"></form>
-        <button type="button" class="btn btn-primary">Atualizar Utilizador</button>
     </form>
-    <!--GET USER BY ID -->
-    <div class="container1">
-        <form method="get" action="/api/v1/admin/getUsers" style="left: 190px; position: relative;bottom: 38px;}">
-            <button type="submit" class="btn btn-primary">Get Utilizadores</button>
-        </form>
-    </div>
-    <!--GET USERS-->
-    <div class="container2">
-        <form method="get" action="/api/v1/admin/getUsersById/" style="left: 390px; position: relative;bottom: 75px;}">
-            <button type="submit" class="btn btn-primary">Get utilizador por ID</button>
-        </form>
-    </div>
-    <!--ADD/POST NEW USER-->
+    <br>
 
-</div>
-<div class="container3">
-    <form method="post" action="/api/v1/admin/postUser" style="left: 720px; position: relative;bottom: 112px;}">
-        <button type="button" class="btn btn-primary">Adicionar User</button>
+    <form action='/api/v1/admin/getUsers' method="get">
+        <button style=" top: 500px; right: 500px" type="submit" class="btn btn-primary">Get Utilizadores</button>
     </form>
+
+    <br>
+
+    <form action='/api/v1/admin/getUsersbyID' method="get">
+        <button type="submit" class="btn btn-primary">Get utilizador por ID</button>
+    </form>
+
+
 </div>
 </body>
+<script>
+    var voltarPagina = function (){
+        history.back();
+    };
+</script>
 </html>
