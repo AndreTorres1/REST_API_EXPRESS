@@ -4,7 +4,7 @@ module.exports = [
         "type": "Movie",
         "title": "Dick Johnson Is Dead",
         "director": "Kirsten Johnson",
-        "cast": "ISABEL E ANDRE",
+        "cast": "",
         "country": "United States",
         "date_added": "September 25, 2021",
         "release_year": 2020,

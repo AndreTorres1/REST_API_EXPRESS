@@ -1,17 +1,21 @@
-const app = require('express').Router();
-const movies = require('./movieData');
+const express = require('express');
+const movies = require("../../movieData");
+const bodyParser = require("body-parser");
+const app = express();
 let movieDirectory = movies;
+app.use(bodyParser.json());
 
-app.get('/view/movies', (req, res) => {
-    res.send(movies);
+module.exports = app;
+app.get('/movies', (req, res) => {
+    res.send(movies );
 });
 
-app.get('/view/movies/:id', (req, res) => {
-    const {id} = req.params;
+app.get('/movies/:title', (req, res) => {
+    const {title} = req.params;
 
-    const movie = movieDirectory.find(b => b.show_id === id);
+    const movie = movieDirectory.find(b => b.title === title);
 
-    if (!movie) return res.status(404).send(`O filme com o id ${id} não existe!`);
+    if (!movie) return res.status(404).send(`O filme com esse nome não existe!`);
 
     res.send(movie)
 });
