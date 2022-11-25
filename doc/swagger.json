@@ -1,0 +1,359 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API REST MOVIES",
+    "description": "This API allows for users to watch movies and TV shows, some specific users to edit certain movies and admin to manage all this users and movies ",
+    "version": "1.0"
+  },
+  "schemes": [
+    "http"
+  ],
+  "parameters": {
+    "userToken": {
+      "name": "token",
+      "in": "path",
+      "description": "User authorization",
+      "required": true
+    },
+    "id": {
+      "name": "id",
+      "in": "body",
+      "description": "ID do filme ou utilizador",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    "email": {
+      "name": "email",
+      "description": "Email",
+      "required": true,
+      "in": "header",
+      "default": "andre@admin"
+    },
+    "password": {
+      "name": "password",
+      "description": "Password",
+      "required": true,
+      "in": "header",
+      "default": "12456"
+    },
+    "permissao": {
+      "name": "permissao",
+      "description": "Permissão",
+      "required": true,
+      "in": "header",
+      "default": "user"
+    },
+    "title": {
+      "name": "title",
+      "description": "Title",
+      "required": true,
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/api/v1/userToken/admin/getUsers": {
+      "get": {
+        "description": "Retrieves all users registered in database",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "This endpoint always returns with success"
+          },
+          "404": {
+            "description": "This endpoint does not returns any data"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/admin/getUsersbyID/:id": {
+      "get": {
+        "description": "Retrieves a user with specific ID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If user exists"
+          },
+          "404": {
+            "description": "If there is no user with the given ID"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/admin/movies": {
+      "get": {
+        "description": "Retrieves all the movies",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieves all the movies existents"
+          },
+          "404": {
+            "description": "Error cathcing Movies"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/admin/movies/:id": {
+      "get": {
+        "description": "Retrieves movie with specific ID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the movie exists, it retrieves its info"
+          },
+          "404": {
+            "description": "If there is no movie with the given ID"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/admin/adminsList": {
+      "get": {
+        "description": "Obtem uma lista de admins",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Este endpoint retorna a lista de admins por defeito"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/admin/postUser": {
+      "post": {
+        "description": "Faz a inserção de um novo utilizador",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/email"
+          },
+          {
+            "$ref": "#/parameters/password"
+          },
+          {
+            "$ref": "#/parameters/permissao"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Este endpoint retorna um token junto com a informacao do utilizador"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/admin/deleteUser/": {
+      "delete": {
+        "description": "Remove um utilizador através do ID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Este endpoint retorna sempre com successo"
+          },
+          "400": {
+            "description": "Erro ao apagar Utilizador[ID]"
+          }
+        }
+      }
+    },
+    "_comment": "EDIT paths ",
+    "/api/v1/userToken/edit/movies": {
+      "get": {
+        "description": "Retrieves all the movies",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieves all the movies existents"
+          },
+          "404": {
+            "description": "Error cathcing Movies"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/edit/movies/:id": {
+      "get": {
+        "description": "Retrieves movie with specific ID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the movie exists, it retrieves its info"
+          },
+          "404": {
+            "description": "If there is no movie with the given ID"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/edit/movies/title/": {
+      "get": {
+        "description": "Retrieves movie with specific title",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/title"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the title exists, it retrieves its info"
+          },
+          "404": {
+            "description": "If there is no movie with the given title"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/edit/postMovie": {
+      "post": {
+        "description": "Insert new movie database",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the movie exists, it retrieves its info"
+          },
+          "404": {
+            "description": "If there is no movie with the given ID"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/edit/movies/": {
+      "delete": {
+        "description": "Delete movie database",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the movie deleted, returns SUCCESS"
+          },
+          "404": {
+            "description": "If there is no movie with the given ID"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/edit/updateMovies/": {
+      "put": {
+        "description": "Update data movie database",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the movie UPDATED"
+          },
+          "404": {
+            "description": "If the movie not get UPDATED"
+          }
+        }
+      }
+    },
+    "_comment": "VIEW paths ",
+    "/api/v1/userToken/view/movies": {
+      "get": {
+        "description": "Retrieves all the movies",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieves all the movies existents"
+          },
+          "404": {
+            "description": "Error cathcing Movies"
+          }
+        }
+      }
+    },
+    "/api/v1/userToken/view/movies/title/": {
+      "get": {
+        "description": "Retrieves movie with specific title",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/title"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the title exists, it retrieves its info"
+          },
+          "404": {
+            "description": "If there is no movie with the given title"
+          }
+        }
+      }
+    }
+  }
+}

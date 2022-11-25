@@ -5,11 +5,11 @@ const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser')
 const movies = require('../../movieData');
 const app = express();
-const {getSaltSync, hashSync, compareSync} = require("bcrypt");
+const {hashSync} = require("bcrypt");
 app.use(bodyParser.json());
 let movieDirectory = movies;
 module.exports = app;
-
+const {v4: uuidv4} = require('uuid');
 const client = new Client({
     host: "localhost",
     user: "postgres",
@@ -55,31 +55,34 @@ app.delete('/deleteActor/:id', (req, res) => {
 
 //
 //POST(INSERT) NEW USERS
-    app.post('/postUser/', (req, res) => {
-        // let id = req.body.id;
-        let email = req.body.email;
-        let hashedPassword = bcrypt.hashSync(req.body.password, 8);
-        let permissao = req.body.permissao;
+app.post('/postUser/', (req, res) => {
+    // let id = req.body.id;
+    let email = req.body.email;
+    let hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    let permissao = req.body.permissao;
 
-        if (!req.body.email || !req.body.email || !req.body.permissao) {
-            res.status(422).send({
-                error: 'Todos os campos são obrigatórios'
-            })
-        }
-
-        let insertQuery = `INSERT INTO users(email, password, permissao)
-                           VALUES ('${email}', '${hashedPassword}', '${permissao}')`
-        client.query(insertQuery, (err) => {
-            if (!err) {
-                res.send('Utilizador inserido')
-            } else {
-                console.log(err.message)
-            }
+    if (!req.body.email || !req.body.email || !req.body.permissao) {
+        res.status(422).send({
+            error: 'Todos os campos são obrigatórios'
         })
+    }
 
-        client.end;
 
-    });
+
+    let insertQuery = `INSERT INTO users(id, email, password, permissao)
+                       VALUES ('${uuidv4()}', '${email}', '${hashedPassword}', '${permissao}')`
+    client.query(insertQuery, (err) => {
+        if (!err) {
+            res.send('Utilizador inserido')
+        } else {
+            console.log(err.message)
+        }
+    })
+
+    client.end;
+
+});
+
 
 
 
@@ -134,6 +137,16 @@ app.get('/movies/:id', (req, res) => {
 
     res.send(movie);
 
+});
+//GET movies by title
+app.get('/movies/:title', (req, res) => {
+    const {title} = req.params;
+
+    const movie = movieDirectory.find(b => b.title === title);
+
+    if (!movie) return res.status(404).send(`O filme com esse nome não existe!`);
+
+    res.send(movie)
 });
 //POST new movie with specific info
 app.post('/movies', (req, res) => {
