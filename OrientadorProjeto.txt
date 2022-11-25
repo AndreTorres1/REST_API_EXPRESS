@@ -20,7 +20,7 @@ escolhido, sendo que pelo menos 2 destas entidades deverão estar associadas
 através de uma relação 1-N ou N-N com uma outra entidade (exemplos: Equipa 
 / Jogador – uma Equipa tem vários jogadores, um jogador está em apenas uma 
 equipa; Filme / Ator – cada ator pode participar em vários Filmes e cada Filme 
-tem vários atores).
+tem vários atores).(filme- atores /// ator-filmes)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 4. Deverá ser definida uma estrutura em SQL para armazenar as 3 entidades 
 escolhidas do dataset. A estrutura SQL deverá ser criada com migrações de base 
@@ -43,8 +43,8 @@ iii. Admin – tem permissões de Edit e pode fazer CRUD de
 utilizadores
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-7. Poderá ser utilizada a tecnologia ORM para representar as entidades do sistema 
-e utilizador. (Exemplo, sequelize em https://sequelize.org/)
+7. Poderá ser utilizada a tecnologia ORM para representar as entidades do sistema
+e utilizador. (Exemplo, sequelize em https://sequelize.org/) !!!!!!!!1
 --------------------------------------------------------------------------------------------------------------------------------------------------
 8. Deverá ser criada uma API CRUD [criar, obter, atualizar e apagar] de todas as 
 entidades e de utilizadores. Deverão ser igualmente criados endpoints que 
@@ -69,7 +69,7 @@ DELETE {HOSTNAME}/api/movies/a8248e6f-7f58-4734-9768-e4fd287ef97f/actors/ 8bb069
 --------------------------------------------------------------------------------------------------------------------------------------------------
 10. Valorização: Realização de testes automáticos à API de todos os endpoints com Mocha [ https://mochajs.org/].
 --------------------------------------------------------------------------------------------------------------------------------------------------
-11. Valorização: Utilização de GUIDs para identificador único das entidades e  utilizadores na base de dados em vez de Ids sequenciais numéricos. Poderá ser  usado o package https://www.npmjs.com/package/uuid. 
+11. Valorização: Utilização de GUIDs para identificador único das entidades e  utilizadores na base de dados em vez de Ids sequenciais numéricos. Poderá ser  usado o package https://www.npmjs.com/package/uuid. ✔
 --------------------------------------------------------------------------------------------------------------------------------------------------
 12. Valorização: Utilizar JSONWEBTOKEN para autenticação  https://www.npmjs.com/package/jsonwebtoken
 --------------------------------------------------------------------------------------------------------------------------------------------------

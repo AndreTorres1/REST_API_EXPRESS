@@ -32,8 +32,18 @@ app.get('/movies/:id', (req, res) => {
     res.send(movie);
 
 });
+//GET movies by title
+app.get('/movies/title/:title', (req, res) => {
+    const {title} = req.body;
+
+    const movie = movieDirectory.find(b => b.title === title);
+
+    if (!movie) return res.status(404).send(`O filme com esse nome não existe!`);
+
+    res.send(movie)
+});
 //POST new movie with specific info
-app.post('/movies', (req, res) => {
+app.post('/postMovie', (req, res) => {
     const {
         show_id,
         type,
@@ -72,7 +82,7 @@ app.post('/movies', (req, res) => {
 });
 
 
-app.put('/movies/:id', (req, res) => {
+app.put('/updateMovies/:id', (req, res) => {
 
     const {id} = req.params;
     const {
