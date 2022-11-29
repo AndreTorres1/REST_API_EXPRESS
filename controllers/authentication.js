@@ -1,40 +1,3 @@
-// // AuthController.jsvar express = require('express');
-// var router = express.Router();
-// var bodyParser = require('body-parser');
-// router.use(bodyParser.urlencoded({ extended: false }));
-// router.use(bodyParser.json());
-// var User = require('../user/User');
-// const express = require("express");
-const {Client} = require("pg");
-
-const client = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: "5432",
-    password: "admin",
-    database: "bdProjeto"
-})
-
-client.connect();
-
-
-const findUserbyID = (id) => {
-    const query = `
-        SELECT *
-        FROM users
-        WHERE id = $1`
-    return client.oneOrNone(query, [id])
-}
-
-const verifyUser = (email) => {
-    const query = `
-        SELECT *
-        FROM users
-        WHERE email = $1`
-    return client.oneOrNone(query, [email])
-}
-
-
 const jwt = require('jwt-simple');
 const config = require('../config');
 const bcrypt = require('bcrypt');
@@ -74,7 +37,6 @@ const signup = (req, res, next) => {
         })
 }
 
-// module.exports = {
-//     findUserbyID, verifyUser, signup
-//     , signIn
-// }
+module.exports = {
+    signup, signIn
+}
