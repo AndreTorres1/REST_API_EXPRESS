@@ -4,9 +4,9 @@ validações, isto é, no momento da correção será (por exemplo) testada ✔�
 a inserção de dados errados ou inconsistentes. ⍻
 b. Uma base de dados PostgreSQL✔️
 c. Documentação e testes da API possibilitados pela tecnologia Swagger
-[npmjs.com/package/swagger-ui]
+[npmjs.com/package/swagger-ui]✔
 d. Script de criação da base de dados através de migrations utilizando o dbmigrate [https://npmjs.com/package/db-migrate]
-Serviços Distribuídos – Trabalho Prático Especial (2022/2023)
+Serviços Distribuídos – Trabalho Prático Especial (2022/2023)✔
 --------------------------------------------------------------------------------------------------------------------------------------------------
 2. A cada grupo será atribuído um dataset da plataforma Kaggle
 (www.kaggle.com). Alguns exemplos:
@@ -30,17 +30,17 @@ de dados em db-migrate.
 estão em CSV pelo que poderá ser usado o package csv-parse 
 [https://www.npmjs.com/package/csv-parse] para efetuar a leitura. A 
 importação de todos os dados deverá ser realizada numa das migrações da base 
-de dados.✔️/2
+de dados.✔️
 --------------------------------------------------------------------------------------------------------------------------------------------------
 6. Além das entidades do sistema, deverá ser criada uma coleção que represente 
 os utilizadores do sistema. O utilizador apenas tem e-mail e password. As 
 passwords dos utilizadores serão gravadas nesta base de dados com encriptação 
 SHA256. 
 a. Os utilizadores terão 3 níveis de permissões:
-i. View – apenas pode visualizar dados das entidades
-ii. Edit – pode visualizar e editar dados das entidades do sistema
+i. View – apenas pode visualizar dados das entidades✔
+ii. Edit – pode visualizar e editar dados das entidades do sistema✔
 iii. Admin – tem permissões de Edit e pode fazer CRUD de 
-utilizadores
+utilizadores✔
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 7. Poderá ser utilizada a tecnologia ORM para representar as entidades do sistema
@@ -62,15 +62,15 @@ Ex 3. Adicionar um ator a um filme
 POST {HOSTNAME}/api/movies/11/actors [201]
 Ex 4. Atualizar um ator de um filme✔
 PUT {HOSTNAME}/api/movies/11/actors/7 [200 ou 204]✔
-Ex 5. Apagar um ator de um filme Atualizar um ator de um filme
+Ex 5. Apagar um ator de um filme Atualizar um ator de um filme✔
 DELETE {HOSTNAME}/api/movies/a8248e6f-7f58-4734-9768-e4fd287ef97f/actors/ 8bb06980-53ff4c13-b3fb-4887b3a4e935 [200 ou 204]
 --------------------------------------------------------------------------------------------------------------------------------------------------
 9. A API deverá ser demonstrável através de testes em Postman ou através do próprio Swagger UI.✔️
 --------------------------------------------------------------------------------------------------------------------------------------------------
-10. Valorização: Realização de testes automáticos à API de todos os endpoints com Mocha [ https://mochajs.org/].
+10. Valorização: Realização de testes automáticos à API de todos os endpoints com Mocha [ https://mochajs.org/].✔/2
 --------------------------------------------------------------------------------------------------------------------------------------------------
 11. Valorização: Utilização de GUIDs para identificador único das entidades e  utilizadores na base de dados em vez de Ids sequenciais numéricos. Poderá ser  usado o package https://www.npmjs.com/package/uuid. ✔
 --------------------------------------------------------------------------------------------------------------------------------------------------
-12. Valorização: Utilizar JSONWEBTOKEN para autenticação  https://www.npmjs.com/package/jsonwebtoken
+12. Valorização: Utilizar JSONWEBTOKEN para autenticação  https://www.npmjs.com/package/jsonwebtoken✔
 --------------------------------------------------------------------------------------------------------------------------------------------------
 13. Valorização: utilização do GIT durante o trabalho ✔️

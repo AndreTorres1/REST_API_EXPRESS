@@ -11,25 +11,24 @@
   "parameters": {
     "userToken": {
       "name": "token",
-      "in": "path",
+      "in": "body",
       "description": "User authorization",
-      "required": true
+      "required": true,
+      "type": "string"
     },
     "id": {
       "name": "id",
       "in": "body",
       "description": "ID do filme ou utilizador",
       "required": true,
-      "schema": {
-        "type": "string"
-      }
+      "type": "string"
     },
     "email": {
       "name": "email",
       "description": "Email",
       "required": true,
-      "in": "header",
-      "default": "andre@admin"
+      "in": "body",
+      "type": "string"
     },
     "password": {
       "name": "password",

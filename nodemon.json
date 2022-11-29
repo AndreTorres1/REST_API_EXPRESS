@@ -1,0 +1,11 @@
+{
+  "env": {
+    "PG_HOST": "localhost",
+    "PG_USER": "postgres",
+    "PG_PORT": 5432,
+    "PG_PASSWORD": "admin",
+    "PG_DATABASE": "bdProjeto",
+    "JWT_KEY": "secret",
+    "REFRESH_JWT_KEY": "o2jijn1892nfi32nf2io203m"
+  }
+}
