@@ -1,10 +1,12 @@
 const {Client} = require('pg')
 const express = require('express');
-const movies = require("../../movieData");
+
 const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
 const app = express();
-let movieDirectory = movies;
 app.use(bodyParser.json());
+module.exports = app;
+const {v4: uuidv4} = require('uuid');
 
 
 const client = new Client({
@@ -12,40 +14,71 @@ const client = new Client({
     user: "postgres",
     port: "5432",
     password: "admin",
-    database: "postgres"
+    database: "bdProjeto"
 })
 client.connect();
+
+function verifyJWT(req, res, next) {
+    const token = req.headers['x-access-token'];
+    jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+        if (err) return res.status(401).end();
+
+        req.id = decoded.id
+
+        next();
+    })
+}
+
 //--------------------------------------------------------------------------------
 //GET all movies
-app.get('/movies', (req, res) => {
-    res.send(movies);
+app.get('/Emovies/', verifyJWT, (req, res) => {
+    client.query(`SELECT *
+                  FROM movies`, (err, results) => {
+        if (err) throw err.message;
+        res.status(200).json(results.rows);
+    })
 });
 
 //GET movies with specific ID
-app.get('/movies/:id', (req, res) => {
-    const {id} = req.params;
-
-    const movie = movieDirectory.find(b => b.show_id === id);
-
-    if (!movie) return res.status(404).send(`O filme com o id não existe!`);
-
-    res.send(movie);
-
+app.get('/EgetMoviesByID/', verifyJWT, (req, res) => {
+    client.query(`SELECT *
+                  FROM movies
+                  WHERE show_id = '${req.body.id}'`, (err, result) => {
+        if (!err) {
+            res.send(result.rows);
+        }
+    });
 });
+
 //GET movies by title
-app.get('/movies/title/:title', (req, res) => {
-    const {title} = req.body;
+app.get('/EgetMovieByTitle/', verifyJWT, (req, res, results) => {
+    client.query(`SELECT *
+                  FROM movies
+                  WHERE title = '${req.body.title}'`, (err, result) => {
+//falta fazer verificacao se o ID nao existir na tabela
 
-    const movie = movieDirectory.find(b => b.title === title);
+        if (!err) {
+            res.send(result.rows);
+        }
+    });
+    client.end;
+});
 
-    if (!movie) return res.status(404).send(`O filme com esse nome não existe!`);
-
-    res.send(movie)
+app.get('/EgetMovieByRY/', verifyJWT, (req, res, results) => {
+    client.query(`SELECT *
+                  FROM movies
+                  WHERE release_year = ${req.body.year}`, (err, result, results) => {
+//falta fazer verificacao se o ID nao existir na tabela
+        if (!err) {
+            res.send(result.rows);
+        }
+    });
+    client.end;
 });
 //POST new movie with specific info
-app.post('/postMovie', (req, res) => {
-    const {
-        show_id,
+app.post('/EpostMovie', verifyJWT, (req, res, error) => {
+    let {
+
         type,
         title,
         director,
@@ -57,143 +90,51 @@ app.post('/postMovie', (req, res) => {
         duration,
         listed_in,
         description
-    } = req.body;
+    } = req.body
 
-    const movieExist = movieDirectory.find(m => m.show_id === show_id);
-    if (movieExist) return res.send('O filme já existe ');
+    let insertMovies = `INSERT INTO movies(show_id, type, title, director, "cast", country, date_added, release_year,
+                                           rating, duration, listed_in, description)
+                        VALUES ('${uuidv4()}', '${type}', '${title}', '${director}', '${cast}',
+                                '${country}', '${date_added}', '${release_year}', '${rating}', '${duration}',
+                                '${listed_in}', '${description}')`;
 
-    const movie = {
-        show_id,
-        type,
-        title,
-        director,
-        cast,
-        country,
-        date_added,
-        release_year,
-        rating,
-        duration,
-        listed_in,
-        description
+    client.query(insertMovies, (err) => {
+        if (!err) {
+            res.send('Movie inserted ')
 
-    };
-    movieDirectory.push(movie);
-    res.send(movie);
+        } else {
+            console.log(err.message)
+        }
+    })
+
+
+    client.end;
+});
+app.get('/EgetLastRecords/', verifyJWT, (req, res, results) => {
+    client.query(`SELECT TOP 10 *
+                  FROM movies
+                  ORDER BY DESC `, (err, result) => {
+        //falta fazer verificacao se o ID nao existir na tabela
+        if (!err) {
+            res.send(result.rows);
+        }
+    });
+    client.end;
 });
 
-
-app.put('/updateMovies/:id', (req, res) => {
-
-    const {id} = req.params;
-    const {
-        type,
-        title,
-        director,
-        cast,
-        country,
-        date_added,
-        release_year,
-        rating,
-        duration,
-        listed_in,
-        description
-    } = req.body;
-
-    const movie = movieDirectory.find(m => m.show_id === id);
-    if (!movie) return res.send('Este filme não existe');
-
-
-    //update nos campos abaixo mencionados, no caso de n ao preenchemros o campo com info nova ele mostra a default
-    const updateField = (val, prev) => !val ? prev : val;
-    const updatedMovie = {
-        ...movie,
-        type: updateField(type, movie.type),
-        title: updateField(title, movie.title),
-        director: updateField(director, movie.director),
-        cast: updateField(cast, movie.cast),
-        country: updateField(country, movie.country),
-        date_added: updateField(date_added, movie.date_added),
-        release_year: updateField(release_year, movie.release_year),
-        rating: updateField(rating, movie.rating),
-        duration: updateField(duration, movie.duration),
-        listed_in: updateField(listed_in, movie.listed_in),
-        description: updateField(description, movie.description),
-
-    };
-    const movieIndex = movieDirectory.findIndex(m => m.show_id === id)
-    movieDirectory.splice(movieIndex, 1, updatedMovie);
-
-    res.send(updatedMovie)
-});
 
 //apaga um movie especifico
-app.delete('/movies/:id', (req, res) => {
-    const {id} = req.params;
-    let movie = movieDirectory.find(m => m.show_id === id);
+app.delete('/Emovies/', verifyJWT, (req, res) => {
+    let insertQuery = `DELETE
+                       FROM movies
+                       WHERE show_id = ${req.body.id}`
 
-    //se o movie com o id fornecido nao existir imprime uma mensagem de erro (404)
-    if (!movie) return res.status(404).send(`O filme com o id fornecido nao existe`);
-
-    movieDirectory = movieDirectory.filter(m => m.show_id !== id);
-
-    res.send('Filme apagado');
+    client.query(insertQuery, (err, result) => {
+        if (!err) {
+            res.send('Movie deleted')
+        } else {
+            console.log(err.message)
+        }
+    })
+    client.end;
 });
-module.exports = app;
-
-// app.get('/edit/movies', (req, res) => {
-//     res.send(movies);
-// });
-//
-// app.get('/edit/movies/:id', (req, res) => {
-//     const {id} = req.params;
-//
-//     const movie = movieDirectory.find(b => b.show_id === id);
-//
-//     if (!movie) return res.status(404).send(`O filme com o id ${id} não existe!`);
-//
-//     res.send(movie)
-// });
-//
-// app.put('/edit/movies/:id', (req, res) => {
-//
-//     const {id} = req.params;
-//     const {
-//         type,
-//         title,
-//         director,
-//         cast,
-//         country,
-//         date_added,
-//         release_year,
-//         rating,
-//         duration,
-//         listed_in,
-//         description
-//     } = req.body;
-//
-//     const movie = movieDirectory.find(m => m.show_id === id);
-//     if (!movie) return res.send('Este filme não existe');
-//
-//
-//     //update nos campos abaixo mencionados, no caso de n ao preenchemros o campo com info nova ele mostra a default
-//     const updateField = (val, prev) => !val ? prev : val;
-//     const updatedMovie = {
-//         ...movie,
-//         type: updateField(type, movie.type),
-//         title: updateField(title, movie.title),
-//         director: updateField(director, movie.director),
-//         cast: updateField(cast, movie.cast),
-//         country: updateField(country, movie.country),
-//         date_added: updateField(date_added, movie.date_added),
-//         release_year: updateField(release_year, movie.release_year),
-//         rating: updateField(rating, movie.rating),
-//         duration: updateField(duration, movie.duration),
-//         listed_in: updateField(listed_in, movie.listed_in),
-//         description: updateField(description, movie.description),
-//
-//     };
-//     const movieIndex = movieDirectory.findIndex(m => m.show_id === id)
-//     movieDirectory.splice(movieIndex, 1, updatedMovie);
-//
-//     res.send(updatedMovie)
-// });
