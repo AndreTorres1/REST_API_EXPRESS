@@ -2,11 +2,11 @@ const {Client} = require('pg')
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser')
-const movies = require('../../movieData');
+
 const app = express();
 require('dotenv').config();
 app.use(bodyParser.json());
-let movieDirectory = movies;
+
 module.exports = app;
 const {v4: uuidv4} = require('uuid');
 let {response} = require("express");
@@ -43,10 +43,10 @@ app.get('/getUsers/', verifyJWT, (req, res) => {
 });
 
 //SELECT user by ID
-app.get('/getUsersbyID', verifyJWT, (req, res) => {
+app.get('/getUsersbyID/', (req, res) => {
     client.query(`SELECT *
                   FROM users
-                  WHERE id = ${req.body.id}`, (err, result) => {
+                  WHERE id::uuid = '${req.body.id}' `, (err, result) => {
 //falta fazer verificacao se o ID nao existir na tabela
         if (!err) {
             res.send(result.rows);
@@ -84,11 +84,12 @@ app.post('/postUser/', verifyJWT, (req, res) => {
 //UPDATE user data
 app.put('/updateUser', verifyJWT, (req, res) => {
     let user = req.body;
+    let hashedUpadtePassword = bcrypt.hashSync(user.password, 8);
     let updateQuery = `UPDATE users
                        SET email     = '${user.email}',
-                           password  = '${user.password}',
+                           password  = '${hashedUpadtePassword}',
                            permissao = '${user.permissao}'
-                       WHERE id = ${user.id}`
+                       WHERE id = '${user.id}'`
 
     client.query(updateQuery, (err, result) => {
         if (!err) {
@@ -103,7 +104,7 @@ app.put('/updateUser', verifyJWT, (req, res) => {
 app.delete('/deleteUser/', verifyJWT, (req, res) => {
     let insertQuery = `DELETE
                        FROM users
-                       WHERE id = ${req.body.id}`
+                       WHERE id = '${req.body.id}'`
 
     client.query(insertQuery, (err, result) => {
         if (!err) {
@@ -118,20 +119,19 @@ app.delete('/deleteUser/', verifyJWT, (req, res) => {
 
 //----------------------------------------------------------MOVIES-----------------------------------------------------\\
 //GET all movies
-app.get('/movies/',verifyJWT, (req, res) => {
+app.get('/movies/', verifyJWT, (req, res) => {
     client.query(`SELECT *
                   FROM movies`, (err, results) => {
-        if (err) throw err;
+        if (err) throw err.message;
         res.status(200).json(results.rows);
     })
 });
 
 //GET movies with specific ID
-app.get('/getMoviesByID/',verifyJWT, (req, res) => {
+app.get('/getMoviesByID/', verifyJWT, (req, res) => {
     client.query(`SELECT *
                   FROM movies
-                  WHERE show_id = ${req.body.id}`, (err, result) => {
-
+                  WHERE show_id = '${req.body.id}'`, (err, result) => {
         if (!err) {
             res.send(result.rows);
         }
@@ -139,10 +139,10 @@ app.get('/getMoviesByID/',verifyJWT, (req, res) => {
 });
 
 //GET movies by title
-app.get('/getMovieByTitle/',verifyJWT, (req, res, results) => {
+app.get('/getMovieByTitle/', verifyJWT, (req, res, results) => {
     client.query(`SELECT *
                   FROM movies
-                  WHERE title = ${req.body.title}`, (err, result) => {
+                  WHERE title = '${req.body.title}'`, (err, result) => {
 //falta fazer verificacao se o ID nao existir na tabela
 
         if (!err) {
@@ -160,13 +160,13 @@ app.get('/getMovieByRY/', verifyJWT, (req, res, results) => {
         if (!err) {
             res.send(result.rows);
         }
-
     });
     client.end;
 });
 //POST new movie with specific info
-app.post('/postMovie',verifyJWT, (req, res, error) => {
+app.post('/postMovie', verifyJWT, (req, res, error) => {
     let {
+
         type,
         title,
         director,
@@ -180,7 +180,7 @@ app.post('/postMovie',verifyJWT, (req, res, error) => {
         description
     } = req.body
 
-    let insertMovies = `INSERT INTO movies(id_movie, type, title, director, "cast", country, data_added, release_year,
+    let insertMovies = `INSERT INTO movies(show_id, type, title, director, "cast", country, date_added, release_year,
                                            rating, duration, listed_in, description)
                         VALUES ('${uuidv4()}', '${type}', '${title}', '${director}', '${cast}',
                                 '${country}', '${date_added}', '${release_year}', '${rating}', '${duration}',
@@ -201,7 +201,7 @@ app.post('/postMovie',verifyJWT, (req, res, error) => {
 app.get('/getLastRecords/', verifyJWT, (req, res, results) => {
     client.query(`SELECT TOP 10 *
                   FROM movies
-                  ORDER BY title DESC `, (err, result) => {
+                  ORDER BY  DESC `, (err, result) => {
         //falta fazer verificacao se o ID nao existir na tabela
         if (!err) {
             res.send(result.rows);
@@ -256,7 +256,7 @@ app.get('/getLastRecords/', verifyJWT, (req, res, results) => {
 // });
 
 //apaga um movie especifico
-app.delete('/movies/',verifyJWT, (req, res) => {
+app.delete('/movies/', verifyJWT, (req, res) => {
     let insertQuery = `DELETE
                        FROM movies
                        WHERE show_id = ${req.body.id}`

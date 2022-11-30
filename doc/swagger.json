@@ -8,14 +8,16 @@
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "token": {
+      "type": "JWT",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter the authentication token"
+    }
+
+  },
   "parameters": {
-    "userToken": {
-      "name": "token",
-      "in": "body",
-      "description": "User authorization",
-      "required": true,
-      "type": "string"
-    },
     "id": {
       "name": "id",
       "in": "body",
@@ -44,16 +46,29 @@
       "in": "header",
       "default": "user"
     },
+    "type": {
+      "name": "type",
+      "description": "type movie",
+      "required": true,
+      "in": "header"
+    },
     "title": {
       "name": "title",
       "description": "Title",
       "required": true,
       "in": "header"
+    },
+    "director": {
+      "name": "director",
+      "description": "Director",
+      "required": true,
+      "in": "header"
     }
   },
   "paths": {
-    "/api/v1/userToken/admin/getUsers": {
+    "/api/v1/admin/getUsers/": {
       "get": {
+        "security": [],
         "description": "Retrieves all users registered in database",
         "parameters": [
           {
@@ -70,7 +85,7 @@
         }
       }
     },
-    "/api/v1/userToken/admin/getUsersbyID/:id": {
+    "/api/v1/admin/getUsersbyID/": {
       "get": {
         "description": "Retrieves a user with specific ID",
         "parameters": [
@@ -91,7 +106,28 @@
         }
       }
     },
-    "/api/v1/userToken/admin/movies": {
+    "/api/v1/admin/updateUser/": {
+      "put": {
+        "description": "update users by id",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "update ok"
+          },
+          "404": {
+            "description": "error"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/movies/": {
       "get": {
         "description": "Retrieves all the movies",
         "parameters": [
@@ -109,7 +145,7 @@
         }
       }
     },
-    "/api/v1/userToken/admin/movies/:id": {
+    "/api/v1/admin/getMoviesByID/": {
       "get": {
         "description": "Retrieves movie with specific ID",
         "parameters": [
@@ -130,6 +166,48 @@
         }
       }
     },
+    "/api/v1/admin/getMovieByTitle/": {
+      "get": {
+        "description": "encontra filmes pelo titulo",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/title"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the movie exists, it retrieves its info"
+          },
+          "404": {
+            "description": "If there is no movie with the given title"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/getMovieByRY/": {
+      "get": {
+        "description": "encontra filmes pelo titulo",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/year"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "If the movie exists, it retrieves its info"
+          },
+          "404": {
+            "description": "If there is no movie with the given title"
+          }
+        }
+      }
+    },
     "/api/v1/userToken/admin/adminsList": {
       "get": {
         "description": "Obtem uma lista de admins",
@@ -145,7 +223,7 @@
         }
       }
     },
-    "/api/v1/userToken/admin/postUser": {
+    "/api/v1/admin/postUser": {
       "post": {
         "description": "Faz a inserção de um novo utilizador",
         "parameters": [
@@ -169,7 +247,34 @@
         }
       }
     },
-    "/api/v1/userToken/admin/deleteUser/": {
+    "/api/v1/admin/postMovie": {
+      "post": {
+        "description": "Faz a inserção de um novo filme com informações especificas",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/type"
+          },
+          {
+            "$ref": "#/parameters/title"
+          },
+          {
+            "$ref": "#/parameters/director"
+          },
+          {
+            "$ref": "#/parameters/release_year"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "este endpoint retorna um filme novo"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/deleteUser/": {
       "delete": {
         "description": "Remove um utilizador através do ID",
         "parameters": [
@@ -190,8 +295,47 @@
         }
       }
     },
+    "/api/v1/admin/deletemovies/": {
+      "delete": {
+        "description": "Remove um utilizador através do ID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          },
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "filme deletado com sucesso"
+          },
+          "400": {
+            "description": "Erro ao apagar filme[ID]"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/getLastRecords/": {
+      "get": {
+        "description": "busca os top 10 filmes",
+        "parameters": [
+          {
+            "$ref": "#/parameters/userToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Este endpoint retorna sempre com successo"
+          },
+          "400": {
+            "description": "Error"
+          }
+        }
+      }
+    },
     "_comment": "EDIT paths ",
-    "/api/v1/userToken/edit/movies": {
+    "/api/v1/edit/movies": {
       "get": {
         "description": "Retrieves all the movies",
         "parameters": [
@@ -209,7 +353,7 @@
         }
       }
     },
-    "/api/v1/userToken/edit/movies/:id": {
+    "/api/v1/edit/movies/:id": {
       "get": {
         "description": "Retrieves movie with specific ID",
         "parameters": [
@@ -230,7 +374,7 @@
         }
       }
     },
-    "/api/v1/userToken/edit/movies/title/": {
+    "/api/v1/edit/movies/title/:title": {
       "get": {
         "description": "Retrieves movie with specific title",
         "parameters": [
@@ -251,7 +395,7 @@
         }
       }
     },
-    "/api/v1/userToken/edit/postMovie": {
+    "/api/v1/edit/postMovie": {
       "post": {
         "description": "Insert new movie database",
         "parameters": [
@@ -272,7 +416,7 @@
         }
       }
     },
-    "/api/v1/userToken/edit/movies/": {
+    "/api/v1/edit/deletemovies/:id": {
       "delete": {
         "description": "Delete movie database",
         "parameters": [
@@ -293,7 +437,7 @@
         }
       }
     },
-    "/api/v1/userToken/edit/updateMovies/": {
+    "/api/v1/edit/updateMovies/:id": {
       "put": {
         "description": "Update data movie database",
         "parameters": [
@@ -315,7 +459,7 @@
       }
     },
     "_comment": "VIEW paths ",
-    "/api/v1/userToken/view/movies": {
+    "/api/v1/view/movies": {
       "get": {
         "description": "Retrieves all the movies",
         "parameters": [
@@ -333,7 +477,7 @@
         }
       }
     },
-    "/api/v1/userToken/view/movies/title/": {
+    "/api/v1/view/movies/:title": {
       "get": {
         "description": "Retrieves movie with specific title",
         "parameters": [
@@ -350,6 +494,27 @@
           },
           "404": {
             "description": "If there is no movie with the given title"
+          }
+        }
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "description": "Makes user login",
+        "parameters": [
+          {
+            "$ref": "#/parameters/email"
+          },
+          {
+            "$ref": "#/parameters/password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if users exists makes login and retrieve a token to authenticate"
+          },
+          "404": {
+            "description": "if user fields is wrong message error or print error"
           }
         }
       }

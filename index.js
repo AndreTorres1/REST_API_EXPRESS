@@ -13,7 +13,6 @@ const {Client} = require("pg");
 const  Authentication = require('./controllers/authentication')
 const swaggerUI = require('swagger-ui-express');
 const passport = require('passport');
-const passportService = require('./services/passport');
 const verifyJwt = require('./users/login')
 const requireAuth = passport.authenticate('jwt',{session:false})
 
@@ -43,22 +42,11 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerConfig))
 // const requireAuth = passport.authenticate('jwt', {session: false});
 app.use(bodyParser.json());
 
-// app.use('/api/v1/auth');
-app.use('/api/v1/admin',verifyJwt, apiAdmin);
-app.use('/api/v1/edit',verifyJwt, apiEdit);
-app.use('/api/v1/view',verifyJwt, apiView);
+
+app.use('/api/v1/admin', apiAdmin);
+app.use('/api/v1/edit',apiEdit);
+app.use('/api/v1/view', apiView);
 app.use('/api/v1', apiLogin);
-
-
-
-
-// app.use('/api/v1/users/login')
-
-// //Login page
-// app.get('/', requireAuth, (req, res) => {
-//     res.json(token())
-// });
-// app.post('/login', Authentication.signup)
 
 
 app.listen(port, () => {

@@ -22,7 +22,7 @@ client.connect();
 
 function jwtTokens({id, email}) {
     const user = {id, email};
-    const accessToken = jwt.sign(user, process.env.JWT_KEY, {expiresIn: '20s'});
+    const accessToken = jwt.sign(user, process.env.JWT_KEY, {expiresIn: '20m'});
     return ({accessToken});
 }
 
